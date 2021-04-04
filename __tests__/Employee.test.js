@@ -25,4 +25,10 @@ test("get Employee's email address", () => {
     const employee = new Employee('Jane', 1234, 'jane@gmail.com');
 
     expect(employee.getEmail()).toEqual(expect.stringContaining(employee.email));
+});
+
+test("get Employee's role", () => {
+    const employee = new Employee('Jane', 1234, 'jane@gmail.com');
+
+    expect(employee.getRole()).toEqual("Employee");
 })

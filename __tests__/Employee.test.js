@@ -18,6 +18,11 @@ test("get Employee's name", () => {
 test("get Employee's id", () => {
     const employee = new Employee('Jane', 1234, 'jane@gmail.com');
 
-    expect(employee.getId()).toEqual(expect.any(Number));
+    expect(employee.getId()).toEqual(employee.id);
 });
 
+test("get Employee's email address", () => {
+    const employee = new Employee('Jane', 1234, 'jane@gmail.com');
+
+    expect(employee.getEmail()).toEqual(expect.stringContaining(employee.email));
+})

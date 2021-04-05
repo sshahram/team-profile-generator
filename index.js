@@ -1,8 +1,10 @@
+const fs = require('fs');
 const inquirer = require('inquirer');
 
 // Questions about user
 const promptUser = () => {
     return inquirer.prompt([
+        // Questions about manager
         {
             type: 'input',
             name: 'managerName',
@@ -54,6 +56,18 @@ const promptUser = () => {
                     return false;
                 }
             }
+        },
+        {
+            type: 'list',
+            name: 'menuOption',
+            message: 'What would you like to do? (Required)',
+            choices: [
+                {name:'Add an engineer', default: false},
+             {name:'Add an intern', default: false}, 
+             {name: 'finish buiding the team', default: false}
+            ]
         }
     ]);
 };
+
+promptUser();

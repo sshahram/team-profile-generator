@@ -1,10 +1,9 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
-// Questions about user
-const promptUser = () => {
+// Questions about manager
+const promptManager = () => {
     return inquirer.prompt([
-        // Questions about manager
         {
             type: 'input',
             name: 'managerName',
@@ -34,40 +33,99 @@ const promptUser = () => {
         {
             type: 'input',
             name: 'managerEmail',
-            message: "What is the team's manager email address? (Required)",
-            validate: managerEmailInput => {
-                if(managerEmailInput) {
-                    return true;
-                } else {
-                    console.log("Please enter manager's email address!");
-                    return false;
-                }
-            }
+            message: "What is the team's manager email address?",
         },
         {
             type: 'input',
             name: 'managerNumber',
-            message: "What is the team manager's office number? (Required)",
-            validate: managerNumberInput => {
-                if(managerNumberInput) {
-                    return true;
-                } else {
-                    console.log("Please enter manager's office number!");
-                    return false;
-                }
-            }
+            message: "What is the team manager's office number?",
         },
         {
             type: 'list',
             name: 'menuOption',
             message: 'What would you like to do? (Required)',
             choices: [
-                {name:'Add an engineer', default: false},
-             {name:'Add an intern', default: false}, 
-             {name: 'finish buiding the team', default: false}
+                { name: 'Add an engineer', default: false },
+                { name: 'Add an intern', default: false },
+                { name: 'finish buiding the team', default: false }
             ]
         }
     ]);
 };
 
-promptUser();
+// Questions about engineers
+const promptEngineer = engineerData => {
+    // if there is not user array prompt to create one
+    if(!engineerData.engineerArr) {
+        engineerData.engineerArr = [];
+    }
+    return inquirer.prompt([
+        // questions for engineers
+        {
+            type: 'input',
+            name: 'engineerName',
+            message: "What is the engineer's name? (Required)",
+            validate: engineerNameInput => {
+                if(engineerNameInput) {
+                    return true;
+                } else {
+                    console.log("Please enter engineer's name!");
+                    return false;
+                }
+            },
+            When: ({menuOption}) => {
+                if(menuOption.indexOf('Add an engineer') > -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'engineerId',
+            message: "What is the engineer's Id?",
+            When: ({menuOption}) => {
+                if(menuOption.indexOf('Add an engineer') > -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'engineerEmail',
+            messsage: "What is the engineer's email address?",
+            When: ({menuOption}) => {
+                if(menuOption.indexOf('Add an engineer') > -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+            {
+                type: 'input',
+                name: 'engineerGithub',
+                message: " What is the engineer's GitHub username?",
+                When: ({menuOption}) => {
+                    if(menuOption.indexOf('Add an engineer') > -1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }   
+    ]);
+};
+
+
+promptManager()
+    .then(response => {
+        if(response.menuOption.indexOf('Add an engineer') > -1) {
+            return promptEngineer(response);
+        } else {
+            return response;
+        }
+    })

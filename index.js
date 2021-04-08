@@ -1,131 +1,97 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const Manager = require('./lib/Manager.js');
+const Engineer = require('./lib/Engineer.js');
+const Intern = require('./lib/Intern.js');
+const teamMembers = [];
 
-// Questions about manager
-const promptManager = () => {
+// Questions about team members
+const promptQuestions = () => {
     return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'managerName',
-            message: "What is the team manager's name? (Required)",
-            validate: managerNameInput => {
-                if(managerNameInput) {
-                    return true;
-                } else {
-                    console.log("Please enter manager's name!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'managerId',
-            message: "What is the team manager's Id? (Required)",
-            validate: managerIdInput => {
-                if(managerIdInput) {
-                    return true;
-                } else {
-                    console.log("Please enter manager's Id!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'managerEmail',
-            message: "What is the team's manager email address?",
-        },
-        {
-            type: 'input',
-            name: 'managerNumber',
-            message: "What is the team manager's office number?",
-        },
+        // role
         {
             type: 'list',
-            name: 'menuOption',
-            message: 'What would you like to do? (Required)',
-            choices: [
-                { name: 'Add an engineer', default: false },
-                { name: 'Add an intern', default: false },
-                { name: 'finish buiding the team', default: false }
-            ]
+            name: 'role',
+            message: "What is the team member's role? (Required)",
+            choices: ['Manager', 'Engineer', 'Intern'],
+            validate: roleInput => {
+                if(roleInput) {
+                    return true;
+                } else {
+                    console.log("Please select the team member's role!");
+                    return false;
+                }
+            }
+        },
+        // name
+        {
+            type: 'input',
+            name: 'name',
+            message: "What is team member's name? (Required)",
+            validate: nameInput => {
+                if(nameInput) {
+                    return true;
+                } else {
+                    console.log("Please enter team member's name!");
+                    return false;
+                }
+            }
+        },
+        // employee id
+        {
+            type: 'input',
+            name: "id",
+            message: "What is team member's employee id?"
+        },
+        // email address
+        {
+            type: 'input',
+            name: 'email',
+            message: "What is team member's email address?"
         }
-    ]);
-};
 
-// Questions about engineers
-const promptEngineer = engineerData => {
-    // if there is not user array prompt to create one
-    if(!engineerData.engineerArr) {
-        engineerData.engineerArr = [];
-    }
-    return inquirer.prompt([
-        // questions for engineers
-        {
-            type: 'input',
-            name: 'engineerName',
-            message: "What is the engineer's name? (Required)",
-            validate: engineerNameInput => {
-                if(engineerNameInput) {
-                    return true;
-                } else {
-                    console.log("Please enter engineer's name!");
-                    return false;
-                }
-            },
-            When: ({menuOption}) => {
-                if(menuOption.indexOf('Add an engineer') > -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'engineerId',
-            message: "What is the engineer's Id?",
-            When: ({menuOption}) => {
-                if(menuOption.indexOf('Add an engineer') > -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'engineerEmail',
-            messsage: "What is the engineer's email address?",
-            When: ({menuOption}) => {
-                if(menuOption.indexOf('Add an engineer') > -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        },
+    ])
+    .then(({role, name, id, email}) => {
+        let moreInfo = '';
+        if(role === 'Manager') {
+            moreInfo = 'office number';
+        } else if(role === 'Engineer') {
+            moreInfo = 'GitHub username';
+        } else {
+            moreInfo = 'school';
+        }
+        // questions to be asked depending on team memeber's role
+        inquirer.prompt([
             {
                 type: 'input',
-                name: 'engineerGithub',
-                message: " What is the engineer's GitHub username?",
-                When: ({menuOption}) => {
-                    if(menuOption.indexOf('Add an engineer') > -1) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }   
-    ]);
+                name: 'moreInfo',
+                message: `What is team member's ${moreInfo}`
+            },
+            // adding more team members
+            {
+                type: 'confirm',
+                name: 'addMembers',
+                message: 'Would you like to go back to the menu to add more team members?',
+                default: false
+            }
+        ])
+        .then(({addMembers, moreInfo})=> {
+            let newTeamMember;
+            if(role === 'Manager') {
+                newTeamMember = new Manager(role, name, id, email, moreInfo);
+            } else if(role === 'Engineer') {
+                newTeamMember = new Engineer(role, name, id, email, moreInfo);
+            } else {
+                newTeamMember = new Intern(role, name, id, email, moreInfo);
+            }
+            teamMembers.push(newTeamMember);
+            if(addMembers) {
+                promptQuestions();
+            } else {
+                console.log(teamMembers);
+            }
+        })      
+    });
 };
 
-
-promptManager()
-    .then(response => {
-        if(response.menuOption.indexOf('Add an engineer') > -1) {
-            return promptEngineer(response);
-        } else {
-            return response;
-        }
-    })
+promptQuestions();

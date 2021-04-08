@@ -1,10 +1,8 @@
 const fs = require('fs');
-const {writeFile, copyFile} = require('./utils/generate-site.js');
 const inquirer = require('inquirer');
 const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
-const generatePage = require('./src/page-template.js');
 const teamMembers = [];
 
 // Questions about team members
@@ -87,25 +85,83 @@ const promptQuestions = () => {
                 newTeamMember = new Intern(role, name, id, email, moreInfo);
             }
             teamMembers.push(newTeamMember);
+            generateCard(newTeamMember);
             if(addMembers) {
                 promptQuestions();
             } else {
-                console.log(teamMembers);
+                return teamMembers;
             }
         })      
     });
 };
 
-promptQuestions()
-    .then(teamData => {
-        return generatePage(teamData);
+// generate headers for html file
+const generateHeader = () => {
+    const header = `<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Team Profile</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,500;1,300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+
+    <body>
+    <header>
+      <div class="container align-center py-3">
+        <h1 class="page-title py-2 px-3">My Team</h1>
+      </div>
+    </header>
+    <div class="container">
+        <div class="row">`;
+        fs.writeFile("./dist/index.html", header, (err) => {
+            if(err) {
+                console.log(err);
+            }
+        });
+}
+
+
+// generate cards for each team member in html file
+const generateCard = teamMember => {
+    return new Promise(function(resolve, reject) {
+    const name = teamMember.getName();
+    const role = teamMember.getRole();
+    const id = teamMember.getId();
+    const email = teamMember.getEmail();
+    let content = '';
+    if( role === 'Manager') {
+        const officeNumber = teamMember.getOfficeNumber();
+        content = `
+        <div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header">${name}<br /><br />Manager</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email Address: ${email}</li>
+                <li class="list-group-item">Office Phone: ${officeNumber}</li>
+            </ul>
+            </div>
+        </div>`;
+    }
+    fs.appendFile('./dist/index.html', content, err => {
+        if(err) {
+            return reject(err);
+        }
+        return resolve();
     })
-    .then(pageHTML => {
-        return writeFile(pageHTML);
-    })
-    .then(() => {
-        return copyFile();
-    })
-    .catch(err => {
-        console.log(err);
-    });
+})
+};
+
+// initalize app
+const initApp = () => {
+    generateHeader();
+    promptQuestions();
+}
+
+// call function to start app
+initApp();

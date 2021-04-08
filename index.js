@@ -1,8 +1,10 @@
 const fs = require('fs');
+const {writeFile, copyFile} = require('./utils/generate-site.js');
 const inquirer = require('inquirer');
 const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
+const generatePage = require('./src/page-template.js');
 const teamMembers = [];
 
 // Questions about team members
@@ -94,4 +96,16 @@ const promptQuestions = () => {
     });
 };
 
-promptQuestions();
+promptQuestions()
+    .then(teamData => {
+        return generatePage(teamData);
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+    })
+    .then(() => {
+        return copyFile();
+    })
+    .catch(err => {
+        console.log(err);
+    });

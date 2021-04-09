@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
+const copyFile = require('./utils/copy-stylesheet.js');
 const teamMembers = [];
 
 // Questions about team members
@@ -89,7 +90,7 @@ const promptQuestions = () => {
             if(addMembers) {
                 promptQuestions();
             } else {
-                return teamMembers;
+                generateFooter();
             }
         })      
     });
@@ -107,13 +108,13 @@ const generateHeader = () => {
         <title>Team Profile</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,500;1,300&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
 
     <body>
     <header>
-      <div class="container align-center py-3">
-        <h1 class="page-title py-2 px-3">My Team</h1>
+      <div class="text-center py-3">
+        <h1 class="py-2 px-3">My Team</h1>
       </div>
     </header>
     <div class="container">
@@ -138,13 +139,13 @@ const generateCard = teamMember => {
         const officeNumber = teamMember.getOfficeNumber();
         content = `
         <div class="col-6">
-            <div class="card mx-auto mb-3">
+            <div class="card mx-auto mb-3" style="width: 18rem">
             <h5 class="card-header">${name}<br />Manager</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${id}</li>
-                <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">Office Number: ${officeNumber}</li>
-            </ul>
+            <div class="card-body">
+                ID: ${id} </br>
+                Email Address: ${email} </br>
+                Office Number: ${officeNumber} </br>
+            </div>
             </div>
         </div>`;
     }
@@ -152,26 +153,26 @@ const generateCard = teamMember => {
         const github = teamMember.getGithub();
         content=`
         <div class="col-6">
-            <div class="card mx-auto mb-3">
+            <div class="card mx-auto mb-3" style="width: 18rem">
             <h5 class="card-header">${name}<br />Engineer</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${id}</li>
-                <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">GitHub: ${github}</li>
-            </ul>
+            <div class="card-body">
+                ID: ${id} </br>
+                Email Address: ${email} </br>
+                GitHub: ${github}
+            </div>
             </div>
         </div>`
     }
     else {
         const school = teamMember.getSchool();
         content = `<div class="col-6">
-        <div class="card mx-auto mb-3">
+        <div class="card mx-auto mb-3" style="width: 18rem">
         <h5 class="card-header">${name}<br />Intern</h5>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${id}</li>
-            <li class="list-group-item">Email Address: ${email}</li>
-            <li class="list-group-item">School: ${school}</li>
-        </ul>
+        <div class="card-body">
+            ID: ${id} </br>
+            Email Address: ${email} </br>
+            School: ${school} </br>
+        </div>
         </div>
     </div>`
     }
@@ -184,10 +185,27 @@ const generateCard = teamMember => {
 })
 };
 
+// generate footer for html file
+const generateFooter = () => {
+    const content = `
+    </div>
+    </div>
+  </body>
+  </html>`;
+  fs.appendFile('./dist/index.html', content, err => {
+    if(err) {
+        console.log(err);
+    }
+    });
+}
+
 // initalize app
 const initApp = () => {
     generateHeader();
-    promptQuestions();
+    promptQuestions()
+    .then(() => {
+        return copyFile();
+    });
 }
 
 // call function to start app

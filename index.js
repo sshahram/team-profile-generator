@@ -107,7 +107,7 @@ const generateHeader = () => {
         <title>Team Profile</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,500;1,300&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
@@ -138,15 +138,42 @@ const generateCard = teamMember => {
         const officeNumber = teamMember.getOfficeNumber();
         content = `
         <div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">${name}<br /><br />Manager</h5>
+            <div class="card mx-auto mb-3">
+            <h5 class="card-header">${name}<br />Manager</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: ${id}</li>
                 <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">Office Phone: ${officeNumber}</li>
+                <li class="list-group-item">Office Number: ${officeNumber}</li>
             </ul>
             </div>
         </div>`;
+    }
+    else if( role === 'Engineer') {
+        const github = teamMember.getGithub();
+        content=`
+        <div class="col-6">
+            <div class="card mx-auto mb-3">
+            <h5 class="card-header">${name}<br />Engineer</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email Address: ${email}</li>
+                <li class="list-group-item">GitHub: ${github}</li>
+            </ul>
+            </div>
+        </div>`
+    }
+    else {
+        const school = teamMember.getSchool();
+        content = `<div class="col-6">
+        <div class="card mx-auto mb-3">
+        <h5 class="card-header">${name}<br />Intern</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: ${id}</li>
+            <li class="list-group-item">Email Address: ${email}</li>
+            <li class="list-group-item">School: ${school}</li>
+        </ul>
+        </div>
+    </div>`
     }
     fs.appendFile('./dist/index.html', content, err => {
         if(err) {

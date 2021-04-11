@@ -141,7 +141,7 @@ const generateCard = teamMember => {
         content = `
         <div class="col-12 col-md-4">
             <div class="card mx-auto mb-3" style="width: 15rem; height: 15rem">
-            <h5 class="card-header">${name}<br />Manager</h5>
+            <h5 class="card-header">${name}<br /><i class="fas fa-mug-hot"></i> Manager</h5>
             <div class="card-body">
                 <p>ID: ${id}</p>
                 <p>Email: <a href="mailto:${email}">${email}</a></p>
@@ -155,11 +155,11 @@ const generateCard = teamMember => {
         content=`
         <div class="col-12 col-md-4">
             <div class="card mx-auto mb-3" style="width: 15rem; height: 15rem">
-            <h5 class="card-header">${name}<br />Engineer</h5>
+            <h5 class="card-header">${name}<br /><i class="fas fa-glasses"></i> Engineer</h5>
             <div class="card-body">
                 <p>ID: ${id}</p>
                 <p>Email: <a href="mailto:${email}">${email}</a></p>
-                <p>GitHub: <a href=https://github.com/${github}>${github}</a></p>
+                <p>GitHub: <a href=https://github.com/${github} target="_blank">${github}</a></p>
             </div>
             </div>
         </div>`
@@ -168,7 +168,7 @@ const generateCard = teamMember => {
         const school = teamMember.getSchool();
         content = `<div class="col-12 col-md-4">
         <div class="card mx-auto mb-3" style="width: 15rem; height: 15rem">
-        <h5 class="card-header">${name}<br />Intern</h5>
+        <h5 class="card-header">${name}<br /><i class="fas fa-user-graduate"></i> Intern</h5>
         <div class="card-body">
             <p>ID: ${id}</p>
             <p>Email: <a href="mailto:${email}">${email}</a></p>

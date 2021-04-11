@@ -41,10 +41,12 @@ You can use the following methods to test the application:
 
 ## Screenshots
 Here is the snapshot of "Team Profile Generator" webpage:
-![alt=team-profile-generator](./utils/images/)
+![alt=team-profile-generator](./utils/images/team-profile-generator.jpg)
+
 ## Link to Demo Video
 Please click on the following link to see the Demo video for this project:
-[Link to Demo]()
+[Link to Demo](https://drive.google.com/file/d/1HW6Z2OTQddUFQXMTCZcvI2U_hxUce8Zu/view)
+
 ## Questions
 If you have any questions please use the following two links to contact me:
 

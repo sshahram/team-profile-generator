@@ -142,9 +142,9 @@ const generateCard = teamMember => {
             <div class="card mx-auto mb-3" style="width: 18rem">
             <h5 class="card-header">${name}<br />Manager</h5>
             <div class="card-body">
-                ID: ${id} </br>
-                Email Address: ${email} </br>
-                Office Number: ${officeNumber} </br>
+                <p>ID: ${id}</p>
+                <p>Email Address: <a href="mailto:${email}">${email}</a></p>
+                <p>Office Number: ${officeNumber}</p>
             </div>
             </div>
         </div>`;
@@ -156,9 +156,9 @@ const generateCard = teamMember => {
             <div class="card mx-auto mb-3" style="width: 18rem">
             <h5 class="card-header">${name}<br />Engineer</h5>
             <div class="card-body">
-                ID: ${id} </br>
-                Email Address: ${email} </br>
-                GitHub: ${github}
+                <p>ID: ${id}</p>
+                <p>Email Address: <a href="mailto:${email}">${email}</a></p>
+                <p>GitHub: <a href=https://github.com/${github}>${github}</a></p>
             </div>
             </div>
         </div>`
@@ -169,9 +169,9 @@ const generateCard = teamMember => {
         <div class="card mx-auto mb-3" style="width: 18rem">
         <h5 class="card-header">${name}<br />Intern</h5>
         <div class="card-body">
-            ID: ${id} </br>
-            Email Address: ${email} </br>
-            School: ${school} </br>
+            <p>ID: ${id}</p>
+            <p>Email Address: <a href="mailto:${email}">${email}</a></p>
+            <p>School: ${school}</p>
         </div>
         </div>
     </div>`

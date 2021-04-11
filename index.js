@@ -66,7 +66,7 @@ const promptQuestions = () => {
             {
                 type: 'input',
                 name: 'moreInfo',
-                message: `What is team member's ${moreInfo}`
+                message: `What is team member's ${moreInfo}?`
             },
             // adding more team members
             {

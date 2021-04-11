@@ -109,6 +109,7 @@ const generateHeader = () => {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,500;1,300&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
@@ -138,12 +139,12 @@ const generateCard = teamMember => {
     if( role === 'Manager') {
         const officeNumber = teamMember.getOfficeNumber();
         content = `
-        <div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
+        <div class="col-12 col-md-4">
+            <div class="card mx-auto mb-3" style="width: 15rem; height: 15rem">
             <h5 class="card-header">${name}<br />Manager</h5>
             <div class="card-body">
                 <p>ID: ${id}</p>
-                <p>Email Address: <a href="mailto:${email}">${email}</a></p>
+                <p>Email: <a href="mailto:${email}">${email}</a></p>
                 <p>Office Number: ${officeNumber}</p>
             </div>
             </div>
@@ -152,12 +153,12 @@ const generateCard = teamMember => {
     else if( role === 'Engineer') {
         const github = teamMember.getGithub();
         content=`
-        <div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
+        <div class="col-12 col-md-4">
+            <div class="card mx-auto mb-3" style="width: 15rem; height: 15rem">
             <h5 class="card-header">${name}<br />Engineer</h5>
             <div class="card-body">
                 <p>ID: ${id}</p>
-                <p>Email Address: <a href="mailto:${email}">${email}</a></p>
+                <p>Email: <a href="mailto:${email}">${email}</a></p>
                 <p>GitHub: <a href=https://github.com/${github}>${github}</a></p>
             </div>
             </div>
@@ -165,12 +166,12 @@ const generateCard = teamMember => {
     }
     else {
         const school = teamMember.getSchool();
-        content = `<div class="col-6">
-        <div class="card mx-auto mb-3" style="width: 18rem">
+        content = `<div class="col-12 col-md-4">
+        <div class="card mx-auto mb-3" style="width: 15rem; height: 15rem">
         <h5 class="card-header">${name}<br />Intern</h5>
         <div class="card-body">
             <p>ID: ${id}</p>
-            <p>Email Address: <a href="mailto:${email}">${email}</a></p>
+            <p>Email: <a href="mailto:${email}">${email}</a></p>
             <p>School: ${school}</p>
         </div>
         </div>

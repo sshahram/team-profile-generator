@@ -3,13 +3,12 @@
 ![GitHub license badge](https://img.shields.io/badge/license-MIT-blue.svg)
 ## Description
 
-This project uses Node.js command-line application that takes in information about employees and generates an HTML webpage that displays summaies for each person.
+This project uses Node.js command-line application that takes in information about employees and generates an HTML webpage that displays summaries for each person.
 
 ## Table of Contents
 * [Description](#description)
 * [Table of Contents](#table-of-contents)
 * [Installation](#installation)
-* [User-Story](#user-story)
 * [Acceptance-Criteria](#acceptance-criteria)
 * [Tests](#tests)
 * [Screenshots](#screenshots)
@@ -20,9 +19,6 @@ This project uses Node.js command-line application that takes in information abo
 Please see below for installation requirements:
 
 Please first install node.js and then run the following command into your terminal: npm install
-
-## User-Story
-As a manager, I want to generate a webpage that displays my team's basic info, so that I have quick access to their emails and GitHub profiles
 
 ## Acceptance-Criteria
 * When I am prompted for my team members and their information, then an HTML file is generated that displays a nicely formatted team roster based on user input
